@@ -1,4 +1,4 @@
-import { sequelize } from '@jobber/database';
+import { mysqlDatabase } from '@jobber/mysql.database';
 import { IAuthDocument } from '@jobber/shared';
 import { compare, hash } from 'bcryptjs';
 import { DataTypes, Model, ModelDefined, Optional } from 'sequelize';
@@ -7,7 +7,7 @@ const SALT_ROUND = 10;
 
 type AuthUserCreationAttributes = Optional<IAuthDocument, 'id' | 'createdAt' | 'passwordResetToken' | 'passwordResetExpires'>;
 
-const AuthModel: ModelDefined<IAuthDocument, AuthUserCreationAttributes> | any = sequelize.define(
+const AuthModel: ModelDefined<IAuthDocument, AuthUserCreationAttributes> | any = mysqlDatabase.sequelize.define(
   'auths',
   {
     username: {
