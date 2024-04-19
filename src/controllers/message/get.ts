@@ -1,28 +1,30 @@
-import { AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { messageService } from '@jobber/services/message.service';
+import { IConversationDocument, IMessageDocument } from '@jobber/shared';
 
 export class Get {
   public async conversation(req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await messageService.getConversation(req.params.senderUsername, req.params.receiverUsername);
-    res.status(StatusCodes.OK).json({ message: response.data.message, conversations: response.data.conversations });
+    const { senderUsername, receiverUsername } = req.params;
+    const conversations: IConversationDocument[] = await messageService.getConversation(senderUsername, receiverUsername);
+    res.status(StatusCodes.OK).json({ message: 'Chat conversation', conversations });
   }
 
   public async messages(req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await messageService.getMessages(req.params.senderUsername, req.params.receiverUsername);
-    res.status(StatusCodes.OK).json({ message: response.data.message, messages: response.data.messages });
+    const { senderUsername, receiverUsername } = req.params;
+    const messages: IMessageDocument[] = await messageService.getMessages(senderUsername, receiverUsername);
+    res.status(StatusCodes.OK).json({ message: 'Chat messages', messages });
   }
 
   public async conversationList(req: Request, res: Response): Promise<void> {
     const { username } = req.params;
-    const response: AxiosResponse = await messageService.getConversationList(username);
-    res.status(StatusCodes.OK).json({ message: response.data.message, conversations: response.data.conversations });
+    const messages: IMessageDocument[] = await messageService.getUserConversationList(username);
+    res.status(StatusCodes.OK).json({ message: 'Conversation list', conversations: messages });
   }
 
   public async userMessages(req: Request, res: Response): Promise<void> {
     const { conversationId } = req.params;
-    const response: AxiosResponse = await messageService.getUserMessages(conversationId);
-    res.status(StatusCodes.OK).json({ message: response.data.message, messages: response.data.messages });
+    const messages: IMessageDocument[] = await messageService.getUserMessages(conversationId);
+    res.status(StatusCodes.OK).json({ message: 'Chat messages', messages });
   }
 }
