@@ -14,8 +14,8 @@ import { config } from '@jobber/config';
 import { elasticSearch } from '@jobber/elasticsearch';
 import { appRoutes } from '@jobber/routes';
 import { axiosAuthInstance } from '@jobber/services/auth.service';
-import { axiosBuyerInstance } from '@jobber/services/api/buyer.service';
-import { axiosSellerInstance } from '@jobber/services/api/seller.service';
+import { axiosBuyerInstance } from '@jobber/services/buyer.service';
+import { axiosSellerInstance } from '@jobber/services/seller.service';
 import { axiosGigInstance } from '@jobber/services/api/gig.service';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
@@ -28,6 +28,12 @@ import { isAxiosError } from 'axios';
 import { Channel } from 'amqplib';
 
 import { createConnection } from './queues/connection';
+import {
+  consumeBuyerDirectMessage,
+  consumeReviewFautMessages,
+  consumeSeedGigDirectMessages,
+  consumeSellerDirectMessage
+} from './queues/user.consumer';
 
 const SERVER_PORT = 4000;
 const DEFAULT_ERROR_CODE = 500;
@@ -130,6 +136,10 @@ export class GatewayServer {
 
   private async startQueues(): Promise<void> {
     channel = (await createConnection()) as Channel;
+    await consumeBuyerDirectMessage(channel);
+    await consumeSellerDirectMessage(channel);
+    await consumeReviewFautMessages(channel);
+    await consumeSeedGigDirectMessages(channel);
   }
 
   private async startServer(app: Application): Promise<void> {
