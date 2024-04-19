@@ -1,21 +1,21 @@
-import { buyerService } from '@jobber/services/api/buyer.service';
-import { AxiosResponse } from 'axios';
+import { buyerService } from '@jobber/services/buyer.service';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
+import { IBuyerDocument } from '@jobber/shared';
 
 export class Get {
-  public async email(_req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await buyerService.getBuyerByEmail();
-    res.status(StatusCodes.OK).json({ message: response.data.message, buyer: response.data.buyer });
+  public async email(req: Request, res: Response): Promise<void> {
+    const buyer: IBuyerDocument | null = await buyerService.getBuyerByEmail(req.currentUser!.email);
+    res.status(StatusCodes.OK).json({ message: 'Buyer profile', buyer });
   }
 
-  public async currentUsername(_req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await buyerService.getCurrentBuyerByUsername();
-    res.status(StatusCodes.OK).json({ message: response.data.message, buyer: response.data.buyer });
+  public async currentUsername(req: Request, res: Response): Promise<void> {
+    const buyer: IBuyerDocument | null = await buyerService.getBuyerByUsername(req.currentUser!.username);
+    res.status(StatusCodes.OK).json({ message: 'Buyer profile', buyer });
   }
 
   public async username(req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await buyerService.getBuyerByUsername(req.params.username);
-    res.status(StatusCodes.OK).json({ message: response.data.message, buyer: response.data.buyer });
+    const buyer: IBuyerDocument | null = await buyerService.getBuyerByUsername(req.params.username);
+    res.status(StatusCodes.OK).json({ message: 'Buyer profile', buyer });
   }
 }
