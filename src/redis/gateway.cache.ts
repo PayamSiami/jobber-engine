@@ -6,7 +6,7 @@ import { createClient } from 'redis';
 type RedisClient = ReturnType<typeof createClient>;
 const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'gatewayCache', 'debug');
 
-export class GatewayCache {
+class GatewayCache {
   client: RedisClient;
 
   constructor() {
@@ -21,6 +21,19 @@ export class GatewayCache {
       await this.client.SET(key, value);
     } catch (error) {
       log.log('error', 'GatewayService Cache saveUserSelectedCategory() method error:', error);
+    }
+  }
+
+  public async getUserSelectedGigCategory(key: string): Promise<string> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+      const response: string = (await this.client.GET(key)) as string;
+      return response;
+    } catch (error) {
+      log.log('error', 'GigService GigCache getUserSelectedGigCategory() method error:', error);
+      return '';
     }
   }
 
@@ -70,3 +83,5 @@ export class GatewayCache {
     }
   }
 }
+
+export const gatewayCache: GatewayCache = new GatewayCache();

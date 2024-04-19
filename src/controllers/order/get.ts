@@ -1,4 +1,4 @@
-import { orderService } from '@jobber/services/api/order.service';
+import { orderService } from '@jobber/services/order.service';
 import { AxiosResponse } from 'axios';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import { messageService } from '@jobber/services/api/message.service';
+import { messageService } from '@jobber/services/message.service';
 
 export class Create {
   public async message(req: Request, res: Response): Promise<void> {

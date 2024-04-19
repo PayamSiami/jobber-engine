@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import { orderService } from '@jobber/services/api/order.service';
+import { orderService } from '@jobber/services/order.service';
 
 export class Create {
   public async intent(req: Request, res: Response): Promise<void> {

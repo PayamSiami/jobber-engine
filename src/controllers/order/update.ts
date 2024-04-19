@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { AxiosResponse } from 'axios';
-import { orderService } from '@jobber/services/api/order.service';
+import { orderService } from '@jobber/services/order.service';
 
 export class Update {
   public async cancel(req: Request, res: Response): Promise<void> {

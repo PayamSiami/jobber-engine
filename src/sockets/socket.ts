@@ -1,5 +1,5 @@
 import { config } from '@jobber/config';
-import { GatewayCache } from '@jobber/redis/gateway.cache';
+import { gatewayCache } from '@jobber/redis/gateway.cache';
 import { IMessageDocument, IOrderDocument, IOrderNotifcation, winstonLogger } from '@jobber/shared';
 import { Server, Socket } from 'socket.io';
 import { io, Socket as SocketClient } from 'socket.io-client';
@@ -11,11 +11,9 @@ let orderSocketClient: SocketClient;
 
 export class SocketIOAppHandler {
   private io: Server;
-  private gatewayCache: GatewayCache;
 
   constructor(io: Server) {
     this.io = io;
-    this.gatewayCache = new GatewayCache();
     this.chatSocketServiceIOConnections();
     this.orderSocketServiceIOConnections();
   }
@@ -25,22 +23,22 @@ export class SocketIOAppHandler {
     this.orderSocketServiceIOConnections();
     this.io.on('connection', async (socket: Socket) => {
       socket.on('getLoggedInUsers', async () => {
-        const response: string[] = await this.gatewayCache.getLoggedInUsersFromCache('loggedInUsers');
+        const response: string[] = await gatewayCache.getLoggedInUsersFromCache('loggedInUsers');
         this.io.emit('online', response);
       });
 
       socket.on('loggedInUsers', async (username: string) => {
-        const response: string[] = await this.gatewayCache.saveLoggedInUserToCache('loggedInUsers', username);
+        const response: string[] = await gatewayCache.saveLoggedInUserToCache('loggedInUsers', username);
         this.io.emit('online', response);
       });
 
       socket.on('removeLoggedInUser', async (username: string) => {
-        const response: string[] = await this.gatewayCache.removeLoggedInUserFromCache('loggedInUsers', username);
+        const response: string[] = await gatewayCache.removeLoggedInUserFromCache('loggedInUsers', username);
         this.io.emit('online', response);
       });
 
       socket.on('category', async (category: string, username: string) => {
-        await this.gatewayCache.saveUserSelectedCategory(`selectedCategories:${username}`, category);
+        await gatewayCache.saveUserSelectedCategory(`selectedCategories:${username}`, category);
       });
     });
   }

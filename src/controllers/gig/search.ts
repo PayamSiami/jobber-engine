@@ -1,19 +1,27 @@
-
-import { gigService } from '@jobber/services/api/gig.service';
-import { AxiosResponse } from 'axios';
+import { gigsSearch } from '@jobber/services/search.service';
+import { IPaginateProps, ISearchResult, ISellerGig } from '@jobber/shared';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { sortBy } from 'lodash';
 
 export class Search {
   public async gigs(req: Request, res: Response): Promise<void> {
     const { from, size, type } = req.params;
-    let query = '';
-    const objList = Object.entries(req.query);
-    const lastItemIndex = objList.length - 1;
-    objList.forEach(([key, value], index) => {
-      query += `${key}=${value}${index !== lastItemIndex ? '&' : ''}`;
-    });
-    const response: AxiosResponse = await gigService.searchGigs(`${query}`, from, size, type);
-    res.status(StatusCodes.OK).json({ message: response.data.message, total: response.data.total, gigs: response.data.gigs });
+    let resultHits: ISellerGig[] = [];
+    const paginate: IPaginateProps = { from, size: parseInt(`${size}`), type };
+    const gigs: ISearchResult = await gigsSearch(
+      `${req.query.query}`,
+      paginate,
+      `${req.query.delivery_time}`,
+      parseInt(`${req.query.minprice}`),
+      parseInt(`${req.query.maxprice}`)
+    );
+    for (const item of gigs.hits) {
+      resultHits.push(item._source as ISellerGig);
+    }
+    if (type === 'backward') {
+      resultHits = sortBy(resultHits, ['sortId']);
+    }
+    res.status(StatusCodes.OK).json({ message: 'Search gigs results', total: gigs.total, gigs: resultHits });
   }
 }

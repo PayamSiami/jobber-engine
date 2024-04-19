@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 
-import { GatewayCache } from '@jobber/redis/gateway.cache';
 import { channel, socketIO } from '@jobber/server';
 import { authService } from '@jobber/services/auth.service';
 import { BadRequestError, IAuthDocument, IEmailMessageDetails, lowerCase } from '@jobber/shared';
@@ -8,8 +7,8 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { config } from '@jobber/config';
 import { publishDirectMessage } from '@jobber/queues/auth.producer';
+import { gatewayCache } from '@jobber/redis/gateway.cache';
 
-const gatewayCache: GatewayCache = new GatewayCache();
 export class CurrentUser {
   public async read(req: Request, res: Response): Promise<void> {
     let user = null;

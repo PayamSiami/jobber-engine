@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import { reviewService } from '@jobber/services/api/review.service';
+import { reviewService } from '@jobber/services/review.service';
 
 export class Get {
   public async reviewsByGigId(req: Request, res: Response): Promise<void> {

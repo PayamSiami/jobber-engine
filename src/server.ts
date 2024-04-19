@@ -16,14 +16,14 @@ import { appRoutes } from '@jobber/routes';
 import { axiosAuthInstance } from '@jobber/services/auth.service';
 import { axiosBuyerInstance } from '@jobber/services/buyer.service';
 import { axiosSellerInstance } from '@jobber/services/seller.service';
-import { axiosGigInstance } from '@jobber/services/api/gig.service';
+import { axiosGigInstance } from '@jobber/services/gig.service';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
 // import { SocketIOAppHandler } from '@jobber/sockets/socket';
-import { axiosMessageInstance } from '@jobber/services/api/message.service';
-import { axiosOrderInstance } from '@jobber/services/api/order.service';
-import { axiosReviewInstance } from '@jobber/services/api/review.service';
+import { axiosMessageInstance } from '@jobber/services/message.service';
+import { axiosOrderInstance } from '@jobber/services/order.service';
+import { axiosReviewInstance } from '@jobber/services/review.service';
 import { isAxiosError } from 'axios';
 import { Channel } from 'amqplib';
 
