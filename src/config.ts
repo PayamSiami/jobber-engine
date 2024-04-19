@@ -23,6 +23,7 @@ class Config {
   public DATABASE_PASSWORD: string | undefined;
   public DATABASE_NAME: string | undefined;
   public NODE_ENV: string | undefined;
+  public DATABASE_URL: string | undefined;
   public CLIENT_URL: string | undefined;
   public SENDER_EMAIL: string | undefined;
   public SENDER_EMAIL_PASSWORD: string | undefined;
@@ -49,6 +50,7 @@ class Config {
 
   constructor() {
     this.SECRET_KEY_ONE = process.env.SECRET_KEY_ONE || '';
+    this.DATABASE_URL = process.env.DATABASE_URL || '';
     this.SECRET_KEY_TWO = process.env.SECRET_KEY_TWO || '';
     this.CLIENT_URL = process.env.CLIENT_URL || '';
     this.AUTH_BASE_URL = process.env.AUTH_BASE_URL || '';
