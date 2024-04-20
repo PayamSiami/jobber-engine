@@ -1,26 +1,27 @@
+import { getNotificationsById } from '@jobber/services/notification.service';
 import { orderService } from '@jobber/services/order.service';
-import { AxiosResponse } from 'axios';
+import { IOrderDocument, IOrderNotifcation } from '@jobber/shared';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 export class Get {
   public async orderId(req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await orderService.getOrderById(req.params.orderId);
-    res.status(StatusCodes.OK).json({ message: response.data.message, order: response.data.order });
+    const order: IOrderDocument = await orderService.getOrderByOrderId(req.params.orderId);
+    res.status(StatusCodes.OK).json({ message: 'Order by order id', order });
   }
 
   public async sellerOrders(req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await orderService.sellerOrders(req.params.sellerId);
-    res.status(StatusCodes.OK).json({ message: response.data.message, orders: response.data.orders });
+    const orders: IOrderDocument[] = await orderService.getOrdersBySellerId(req.params.sellerId);
+    res.status(StatusCodes.OK).json({ message: 'Seller orders', orders });
   }
 
   public async buyerOrders(req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await orderService.buyerOrders(req.params.buyerId);
-    res.status(StatusCodes.OK).json({ message: response.data.message, orders: response.data.orders });
+    const orders: IOrderDocument[] = await orderService.getOrdersByBuyerId(req.params.buyerId);
+    res.status(StatusCodes.OK).json({ message: 'Buyer orders', orders });
   }
 
   public async notifications(req: Request, res: Response): Promise<void> {
-    const response: AxiosResponse = await orderService.getNotifications(req.params.userTo);
-    res.status(StatusCodes.OK).json({ message: response.data.message, notifications: response.data.notifications });
+    const notifications: IOrderNotifcation[] = await getNotificationsById(req.params.userTo);
+    res.status(StatusCodes.OK).json({ message: 'Notifications', notifications });
   }
 }
