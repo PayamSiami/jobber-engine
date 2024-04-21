@@ -5,6 +5,7 @@ import { redisConnection } from '@jobber/redis/redis.connection';
 import { mysqlDatabase } from './mysql.database';
 import { config } from './config';
 import { mongoDatabase } from './mongo.database';
+import { postgresqlDatabase } from './postgresql.database';
 
 class Application {
   public initialize(): void {
@@ -15,6 +16,7 @@ class Application {
     redisConnection.redisConnect();
     mysqlDatabase.databaseConnection();
     mongoDatabase.databaseConnection();
+    postgresqlDatabase.databaseConnection();
   }
 }
 

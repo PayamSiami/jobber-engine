@@ -23,7 +23,6 @@ import { createAdapter } from '@socket.io/redis-adapter';
 // import { SocketIOAppHandler } from '@jobber/sockets/socket';
 import { axiosMessageInstance } from '@jobber/services/message.service';
 import { axiosOrderInstance } from '@jobber/services/order.service';
-import { axiosReviewInstance } from '@jobber/services/review.service';
 import { isAxiosError } from 'axios';
 import { Channel } from 'amqplib';
 
@@ -89,7 +88,6 @@ export class GatewayServer {
         axiosGigInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
         axiosMessageInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
         axiosOrderInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
-        axiosReviewInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
       }
       next();
     });
