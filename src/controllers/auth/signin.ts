@@ -7,7 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 import { omit } from 'lodash';
 
 export class SignIn {
-  public async read(req: Request, res: Response): Promise<void> {
+  public async read(req: Request | any, res: Response): Promise<void> {
     const { error } = await Promise.resolve(loginSchema.validate(req.body));
     if (error?.details) {
       throw new BadRequestError(error.details[0].message, 'SignIn read() method error');
@@ -26,6 +26,7 @@ export class SignIn {
     }
     const userJWT: string = authService.signToken(existingUser.id!, existingUser.email!, existingUser.username!);
     const userData: IAuthDocument = omit(existingUser, ['password']);
+    req.session.jwt = userJWT; // Set the JWT token in the session
     res.status(StatusCodes.OK).json({ message: 'User login successfully', user: userData, token: userJWT });
   }
 }
