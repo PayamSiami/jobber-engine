@@ -2,11 +2,10 @@ import crypto from 'crypto';
 
 import { config } from '@jobber/config';
 import { signupSchema } from '@jobber/schemes/signup';
-import { BadRequestError, IAuthDocument, IEmailMessageDetails, firstLetterUppercase, uploads } from '@jobber/shared';
+import { BadRequestError, IAuthDocument, IEmailMessageDetails, firstLetterUppercase, lowerCase, uploads } from '@jobber/shared';
 import { UploadApiResponse } from 'cloudinary';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { lowerCase } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
 import { channel } from '@jobber/server';
 import { publishDirectMessage } from '@jobber/queues/auth.producer';
