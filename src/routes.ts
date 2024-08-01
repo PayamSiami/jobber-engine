@@ -11,12 +11,15 @@ import { messageRoutes } from '@jobber/routes/message';
 import { orderRoutes } from '@jobber/routes/order';
 import { reviewRoutes } from '@jobber/routes/review';
 
+import { contactRoutes } from './routes/contact-us';
+
 const BASE_PATH = '/api/v1';
 
 export const appRoutes = (app: Application) => {
   app.use('', healthRoutes.routes());
   app.use(BASE_PATH, authRoutes.routes());
   app.use(BASE_PATH, searchRoutes.routes());
+  app.use(BASE_PATH, contactRoutes.routes());
 
   app.use(BASE_PATH, authMiddleware.verifyUser, currentUserRoutes.routes());
   app.use(BASE_PATH, authMiddleware.verifyUser, buyerRoutes.routes());

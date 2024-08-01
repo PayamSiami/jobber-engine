@@ -20,7 +20,7 @@ import { axiosGigInstance } from '@jobber/services/gig.service';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
-// import { SocketIOAppHandler } from '@jobber/sockets/socket';
+import { SocketIOAppHandler } from '@jobber/sockets/socket';
 import { axiosMessageInstance } from '@jobber/services/message.service';
 import { axiosOrderInstance } from '@jobber/services/order.service';
 import { isAxiosError } from 'axios';
@@ -33,6 +33,7 @@ import {
   consumeSeedGigDirectMessages,
   consumeSellerDirectMessage
 } from './queues/user.consumer';
+import { consumeAuthEmailMessages, consumeOrderEmailMessages } from './queues/email.consumer';
 
 const SERVER_PORT = 4000;
 const DEFAULT_ERROR_CODE = 500;
@@ -138,15 +139,17 @@ export class GatewayServer {
     await consumeSellerDirectMessage(channel);
     await consumeReviewFautMessages(channel);
     await consumeSeedGigDirectMessages(channel);
+    await consumeAuthEmailMessages(channel);
+    await consumeOrderEmailMessages(channel);
   }
 
   private async startServer(app: Application): Promise<void> {
     try {
       const httpServer: http.Server = new http.Server(app);
-      // const socketIO: Server = await this.createSocketIO(httpServer);
-      await this.createSocketIO(httpServer);
+      const socketIO: Server = await this.createSocketIO(httpServer);
+      // await this.createSocketIO(httpServer);
       this.startHttpServer(httpServer);
-      // this.socketIOConnections(socketIO);
+      this.socketIOConnections(socketIO);
     } catch (error) {
       log.log('error', 'GatewayService startServer() error method:', error);
     }
@@ -179,8 +182,8 @@ export class GatewayServer {
   }
 
   // TODO
-  // private socketIOConnections(io: Server): void {
-  //   const socketIoApp = new SocketIOAppHandler(io);
-  //   socketIoApp.listen();
-  // }
+  private socketIOConnections(io: Server): void {
+    const socketIoApp = new SocketIOAppHandler(io);
+    socketIoApp.listen();
+  }
 }

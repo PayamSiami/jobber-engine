@@ -19,12 +19,14 @@ if (process.env.ENABLE_APM === '1') {
 
 class Config {
   public DATABASE_HOST: string | undefined;
+  public POSTGRESQL_URL: string | undefined;
   public DATABASE_USER: string | undefined;
   public DATABASE_PASSWORD: string | undefined;
   public DATABASE_NAME: string | undefined;
   public NODE_ENV: string | undefined;
   public DATABASE_URL: string | undefined;
   public CLIENT_URL: string | undefined;
+  public EMAIL_HOST: string | undefined;
   public SENDER_EMAIL: string | undefined;
   public SENDER_EMAIL_PASSWORD: string | undefined;
   public RABBITMQ_ENDPOINT: string | undefined;
@@ -45,7 +47,6 @@ class Config {
   public AUTH_BASE_URL: string | undefined;
   public USERS_BASE_URL: string | undefined;
   public GIG_BASE_URL: string | undefined;
-  public REVIEW_BASE_URL: string | undefined;
 
   constructor() {
     this.SECRET_KEY_ONE = process.env.SECRET_KEY_ONE || '';
@@ -56,14 +57,15 @@ class Config {
     this.USERS_BASE_URL = process.env.USERS_BASE_URL || '';
     this.GIG_BASE_URL = process.env.GIG_BASE_URL || '';
     this.MESSAGE_BASE_URL = process.env.MESSAGE_BASE_URL || '';
-    this.REVIEW_BASE_URL = process.env.REVIEW_BASE_URL || '';
     this.REDIS_HOST = process.env.REDIS_HOST || '';
     this.ELASTIC_SEARCH_URL = process.env.ELASTIC_SEARCH_URL || '';
     this.CLUSTER_TYPE = process.env.CLUSTER_TYPE || '';
     this.DATABASE_HOST = process.env.DATABASE_HOST || '';
+    this.POSTGRESQL_URL = process.env.POSTGRESQL_URL || '';
     this.DATABASE_USER = process.env.DATABASE_USER || '';
     this.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD || '';
     this.DATABASE_NAME = process.env.DATABASE_NAME || '';
+    this.EMAIL_HOST = process.env.EMAIL_HOST || '';
     this.SENDER_EMAIL = process.env.SENDER_EMAIL || '';
     this.ORDER_BASE_URL = process.env.ORDER_BASE_URL || '';
     this.SENDER_EMAIL_PASSWORD = process.env.SENDER_EMAIL_PASSWORD || '';

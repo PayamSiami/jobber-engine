@@ -14,6 +14,9 @@ export {
   IAuthResponse,
   IAuthUser,
 } from './auth.interface';
+export {
+  IContactUsDocument
+} from './contact-us.interface';
 export { IBuyerDocument, IReduxBuyer } from './buyer.interface';
 export {
   IConversationDocument,

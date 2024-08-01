@@ -10,11 +10,7 @@ class PostgresqlDatabase {
   constructor() {
     this.log = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'reviewDatabaseServer', 'debug');
     this.pool = new Pool({
-      host: `${config.DATABASE_HOST}`,
-      user: `${config.DATABASE_USER}`,
-      password: `${config.DATABASE_PASSWORD}`,
-      port: 5432,
-      database: `${config.DATABASE_NAME}`,
+      connectionString: `${config.POSTGRESQL_URL}`,
       ...(config.NODE_ENV !== 'development' &&
         config.CLUSTER_TYPE === 'AWS' && {
           ssl: {
@@ -57,7 +53,7 @@ class PostgresqlDatabase {
       this.log.info('Review service successfully connected to postgresql database.');
       await this.pool.query(this.createTableText);
     } catch (error) {
-      this.log.error('ReviewService - Unable to connect to database');
+      this.log.error('ReviewService - Unable to connect to postgresql database');
       this.log.log('error', 'ReviewService () method error:', error);
     }
   }
@@ -65,3 +61,17 @@ class PostgresqlDatabase {
 
 export const postgresqlDatabase = new PostgresqlDatabase();
 export const pool = postgresqlDatabase.pool;
+
+// this.pool = new Pool({
+//   host: `${config.DATABASE_HOST}`,
+//   user: `${config.DATABASE_USER}`,
+//   password: `${config.DATABASE_PASSWORD}`,
+//   port: 5432,
+//   database: `${config.DATABASE_NAME}`,
+//   ...(config.NODE_ENV !== 'development' &&
+//     config.CLUSTER_TYPE === 'AWS' && {
+//       ssl: {
+//         rejectUnauthorized: false
+//       }
+//     })
+// });

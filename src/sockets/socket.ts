@@ -44,6 +44,7 @@ export class SocketIOAppHandler {
   }
 
   private chatSocketServiceIOConnections(): void {
+    return;
     chatSocketClient = io(`${config.MESSAGE_BASE_URL}`, {
       transports: ['websocket', 'polling'],
       secure: true
@@ -74,6 +75,7 @@ export class SocketIOAppHandler {
   }
 
   private orderSocketServiceIOConnections(): void {
+    return;
     orderSocketClient = io(`${config.ORDER_BASE_URL}`, {
       transports: ['websocket', 'polling'],
       secure: true
